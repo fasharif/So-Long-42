@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  macos:
+    # The bundled MiniLibX uses OpenGL and AppKit, so the game builds on macOS only.
+    name: Build and map checks (macOS)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Build MiniLibX, the game and the bonus with warnings as errors
+        run: |
+          make -C so_long
+          make -C so_long_bonus
+
+      - name: Map checks
+        run: sh tests/run_map_checks.sh
