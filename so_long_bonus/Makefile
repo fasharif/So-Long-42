@@ -16,28 +16,35 @@ SRC =	utils_b/mov_dir_test.c utils_b/mov_dir.c utils_b/movement.c utils_b/render
 		utils_b/split.c utils_b/test_maps.c utils_b/utils_test_maps.c utils_b/utils.c \
 		utils_b/dir_test_en.c utils_b/utils_b.c utils_b/test_map_en_move.c utils_b/mov_en.c
 
-
 OBJ = $(SRC:.c=.o)
 
-CC = gcc
+MLX_DIR = ../minilibx
+MLX = $(MLX_DIR)/libmlx.a
 
-FLAGS = -Wall -Wextra -Werror
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+LDLIBS = -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
 
 all: $(NAME)
 
-$(NAME): $(SRC) $(OBJ) so_long.h
-	$(CC) $(FLAGS) -lmlx -framework OpenGl -framework AppKit $(SRC) -o $(NAME)
+$(NAME): $(MLX) $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(LDLIBS) -o $(NAME)
 
-%.o: %.c
-	$(CC) -c $(FLAGS) -Imlx $< -o $@
+$(MLX):
+	$(MAKE) -C $(MLX_DIR)
 
-execute:
+%.o: %.c so_long.h
+	$(CC) $(CFLAGS) -I$(MLX_DIR) -c $< -o $@
+
+execute: $(NAME)
 	./$(NAME) maps/map.ber
 
 clean:
-	rm -rf $(OBJ)
+	rm -f $(OBJ)
 
 fclean: clean
-	rm -rf $(NAME)
+	rm -f $(NAME)
 
 re: fclean all
+
+.PHONY: all execute clean fclean re
