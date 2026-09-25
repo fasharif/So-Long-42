@@ -35,8 +35,8 @@ void	ft_putstr(char *s)
 
 void	exit_map(void)
 {
-	ft_putstr("Error\n");
-	exit (0);
+	write(2, "Error\nUsage: ./so_long <map.ber>\n", 33);
+	exit(1);
 }
 
 void	ft_putchar(char c)

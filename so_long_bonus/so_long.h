@@ -12,6 +12,7 @@
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
+# define MAP_MAX 9999
 
 # include <unistd.h>
 # include <stdlib.h>
