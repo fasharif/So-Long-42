@@ -17,17 +17,17 @@ void	exit_1(t_vars *vars, int keycode, char c)
 	if (keycode == 53)
 	{
 		mlx_destroy_window(vars->mlx, vars->win);
-		ft_putstr("you ouut ech\n");
+		ft_putstr("You quit.\n");
 		exit (0);
 	}
 	if (c == 'N')
 	{
 		mlx_destroy_window(vars->mlx, vars->win);
-		ft_putstr("you ouut you lose\n");
+		ft_putstr("Caught by the enemy. You lose!\n");
 		exit (0);
 	}
 	mlx_destroy_window(vars->mlx, vars->win);
-	ft_putstr("you winn\n");
+	ft_putstr("You win!\n");
 	exit (0);
 }
 

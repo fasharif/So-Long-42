@@ -38,6 +38,8 @@ char	*gnl(int fd, char *tr)
 		b = read(fd, &str, 1);
 		if (b == -1)
 			return (0);
+		if (b != 0 && h >= MAP_MAX - 1)
+			return (0);
 		if (b != 0)
 			tr[h++] = str;
 		tr[h] = '\0';
@@ -95,24 +97,22 @@ void	start_win(t_vars *vars)
 int	main(int argc, char **v)
 {
 	int		fd;
-	char	tr[9999];
+	char	tr[MAP_MAX];
 	t_vars	vars;
 
-	if (argc != 2)
-		return (0);
-	if (test_v1(v[1]) == 0)
+	if (argc != 2 || test_v1(v[1]) == 0)
 		exit_map();
 	fd = open(v[1], O_RDONLY);
 	if (fd == -1)
 	{
-		ft_putstr("errror fd\n");
-		return (0);
+		write(2, "Error\nCannot open the map file\n", 31);
+		return (1);
 	}
 	inti_var(&vars, fd, tr);
 	if (test_map(vars.s) == 0 || test_newline(tr) == 0)
 	{
-		ft_putstr("Error\nIN MAPS\n");
-		return (0);
+		write(2, "Error\nInvalid map\n", 18);
+		return (1);
 	}
 	start_win(&vars);
 	mlx_hook(vars.win, 2, 0, key_hook, &vars);

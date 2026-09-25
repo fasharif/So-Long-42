@@ -14,7 +14,7 @@
 
 int	exit_2(t_vars *vars)
 {
-	ft_putstr("you out\n");
+	ft_putstr("Window closed.\n");
 	mlx_destroy_window(vars->mlx, vars->win);
 	exit (0);
 }
